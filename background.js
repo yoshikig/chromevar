@@ -1,3 +1,4 @@
+var WINDOW_ID = "CHROMEVAR WINDOW";
 
 function initialize() {
   var ua = window.navigator.userAgent.split(' ');
@@ -33,14 +34,15 @@ function initialize() {
     frame: {type: 'none'},
     height: 100,
     width: 400,
+    showInShelf: true,
+    icon: c.toDataURL("image/png"),
+    id: WINDOW_ID,
   };
 
   chrome.app.window.create("popup.html", WINDOW_OPTIONS, function (appWindow) {
-    appWindow.setIcon(c.toDataURL("image/png"));
     appWindow.show();
     appWindow.minimize();
   });
-
 }
 
 chrome.runtime.getPlatformInfo(function(info) {
