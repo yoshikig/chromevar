@@ -1,6 +1,19 @@
 var WINDOW_ID = "CHROMEVAR WINDOW";
 
 function initialize() {
+  chrome.runtime.getPlatformInfo(function(info) {
+    // Display host OS in the console
+    if (info.os == 'cros') {
+      open();
+    }
+  });
+}
+
+function open() {
+  var existingWindow = chrome.app.window.get(WINDOW_ID);
+  if (existingWindow != null)
+    return;
+
   var ua = window.navigator.userAgent.split(' ');
   ua = ua.filter(function(s) { return s.lastIndexOf("Chrome/", 0) === 0; });
 
@@ -45,10 +58,5 @@ function initialize() {
   });
 }
 
-chrome.runtime.getPlatformInfo(function(info) {
-  // Display host OS in the console
-  if (info.os == 'cros') {
-    chrome.runtime.onStartup.addListener(initialize);
-    chrome.runtime.onInstalled.addListener(initialize);
-  }
-});
+chrome.runtime.onStartup.addListener(initialize);
+chrome.runtime.onInstalled.addListener(initialize);
